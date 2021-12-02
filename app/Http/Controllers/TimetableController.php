@@ -16,8 +16,7 @@ class TimetableController extends Controller
     public function index()
     {
         $timetables = Timetable::all();
-        $myComponent = null;
-        return inertia('Timetables/Index', compact('timetables', 'myComponent'));
+        return inertia('Timetables/Index', compact('timetables'));
     }
 
     /**
@@ -27,9 +26,7 @@ class TimetableController extends Controller
      */
     public function create()
     {
-        $timetables = Timetable::all();
-        $myComponent = "Create";
-        return inertia('Timetables/Index', compact('timetables', 'myComponent'));
+        // Nothing here, the form is integrated in index
     }
 
     /**
@@ -63,9 +60,7 @@ class TimetableController extends Controller
      */
     public function show(Timetable $timetable)
     {
-        $timetables = Timetable::all();
-        $myComponent = "Show";
-        return inertia('Timetables/Index', compact('timetables', 'timetable', 'myComponent'));
+        return $timetable;
     }
 
     /**

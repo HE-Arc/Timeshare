@@ -1,6 +1,6 @@
 <template>
     <h2>Show Timetable</h2>
-    <p>{{timetable.title}}</p>
+    <p v-if="timetable !== null">{{timetable.title}}</p>
 </template>
 
 
