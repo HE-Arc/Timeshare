@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\TimetableController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -30,5 +31,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('/timetables', TimetableController::class);
+Route::get('managements/timetablesManagers', [ManagementController::class, 'timetablesManagers'])->name("managements.timetablesManagers");
+Route::resource('/managements', ManagementController::class);
 
 require __DIR__.'/auth.php';

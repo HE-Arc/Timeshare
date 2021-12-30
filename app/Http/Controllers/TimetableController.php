@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Timetable;
+use App\Models\Management;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class TimetableController extends Controller
 {
@@ -15,8 +17,22 @@ class TimetableController extends Controller
      */
     public function index()
     {
-        $timetables = Timetable::all();
-        return inertia('Timetables/Index', compact('timetables'));
+        //$timetables = Timetable::where("management.manager", '=', Auth::id())
+        //             ->join("management", 'management.timetable', '=', 'timetables.id');
+
+        //$timetables = DB::table('management')
+        //                  ->join('timetables', 'timetables.id', '=', 'management.timetable')
+        //                  ->select('timetables.*')
+        //                  ->get();
+
+        $manageTimetables = Management::join('timetables', 'timetables.id', '=', 'management.timetable')
+                                  ->where('management.manager', '=', Auth::id())
+                                  ->get();
+
+        $myTimetables = Timetable::where('author', '=', Auth::id())->get();
+
+        Timetable::where('author', '=', Auth::id())->get();
+        return inertia('Timetables/Index', compact('myTimetables', 'manageTimetables'));
     }
 
     /**
@@ -35,6 +51,7 @@ class TimetableController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         $request->validate([
@@ -48,8 +65,7 @@ class TimetableController extends Controller
         $timetable->title = $request->title;
         $timetable->save();
 
-        return redirect()->route('timetables.index')
-            ->with('success','Book created successfully.');
+        return redirect()->route('timetables.index');
     }
 
     /**
@@ -60,7 +76,7 @@ class TimetableController extends Controller
      */
     public function show(Timetable $timetable)
     {
-        return $timetable;
+        return $timetable->id;
     }
 
     /**
