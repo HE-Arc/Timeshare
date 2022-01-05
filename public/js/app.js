@@ -23160,9 +23160,10 @@ __webpack_require__.r(__webpack_exports__);
     updateTable: function updateTable() {
       this.formVisible = false;
     },
-    updateManagementsList: function updateManagementsList() {
+    updateManagementsList: function updateManagementsList(id) {
       var _this2 = this;
 
+      this.currentManageOn = id;
       axios.get(route('managements.timetablesManagers', {
         timetableId: this.currentManageOn
       })).then(function (response) {
@@ -24758,50 +24759,41 @@ var _hoisted_4 = {
 var _hoisted_5 = {
   "class": "container p-3 my-3 bg-dark text-white"
 };
-var _hoisted_6 = {
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "form-group"
-};
-
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Manage : ", -1
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", null, "Manage : ")], -1
 /* HOISTED */
 );
 
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-  value: "-1"
-}, "Select", -1
-/* HOISTED */
-);
-
-var _hoisted_9 = ["value"];
-var _hoisted_10 = {
+var _hoisted_7 = {
   "class": "col-sm-8"
 };
-var _hoisted_11 = {
+var _hoisted_8 = {
   "class": "container p-3 my-3 bg-dark text-white"
 };
-var _hoisted_12 = {
+var _hoisted_9 = {
   "class": "btn-group",
   role: "group",
   "aria-label": "Basic checkbox toggle button group"
 };
-var _hoisted_13 = ["onUpdate:modelValue", "id"];
-var _hoisted_14 = ["for"];
+var _hoisted_10 = ["onUpdate:modelValue", "id"];
+var _hoisted_11 = ["for"];
+var _hoisted_12 = ["onClick"];
 
-var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "btn btn-primary",
-  type: "button"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "bi bi-pencil"
-})], -1
+}, null, -1
 /* HOISTED */
 );
 
-var _hoisted_16 = ["onUpdate:modelValue", "id"];
-var _hoisted_17 = ["for"];
+var _hoisted_14 = [_hoisted_13];
+var _hoisted_15 = ["onUpdate:modelValue", "id"];
+var _hoisted_16 = ["for"];
 
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("test");
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("test");
 
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" oue ");
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" oue ");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Head = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Head");
@@ -24825,26 +24817,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\n    A FAIRE :\n        ajouter un petit engrenage sur les bouton \"myTime...\"\n            qui montrent la fenêtre de manage\n    "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "class": "form-control",
-    onChange: _cache[0] || (_cache[0] = function () {
-      return $options.updateManagementsList && $options.updateManagementsList.apply($options, arguments);
-    }),
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $data.currentManageOn = $event;
-    })
-  }, [_hoisted_8, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.myTimetables, function (timetable) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: timetable.id,
-      value: timetable.id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(timetable.title), 9
-    /* TEXT, PROPS */
-    , _hoisted_9);
-  }), 128
-  /* KEYED_FRAGMENT */
-  ))], 544
-  /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.currentManageOn]])]), $data.currentManageOn != -1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\n    A FAIRE :\n        ajouter un petit engrenage sur les bouton \"myTime...\"\n            qui montrent la fenêtre de manage\n    "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, $data.currentManageOn != -1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_show_managements, {
     managements: $data.currentManagers
@@ -24856,11 +24829,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["timetableId"])], 64
   /* STABLE_FRAGMENT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.myTimetables, function (timetable) {
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.myTimetables, function (timetable) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       key: timetable.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      onChange: _cache[2] || (_cache[2] = function () {
+      onChange: _cache[0] || (_cache[0] = function () {
         return $options.updateTable && $options.updateTable.apply($options, arguments);
       }),
       "onUpdate:modelValue": function onUpdateModelValue($event) {
@@ -24872,14 +24845,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       autocomplete: "off"
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_13), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.selected[timetable.id]]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_10), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.selected[timetable.id]]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": timetable.id,
       "class": "btn btn-outline-primary"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(timetable.title) + " ", 1
     /* TEXT */
-    ), _hoisted_15], 8
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: function onClick($event) {
+        return $options.updateManagementsList(timetable.id);
+      },
+      "class": "btn btn-primary",
+      type: "button"
+    }, _hoisted_14, 8
     /* PROPS */
-    , _hoisted_14)], 64
+    , _hoisted_12)], 8
+    /* PROPS */
+    , _hoisted_11)], 64
     /* STABLE_FRAGMENT */
     );
   }), 128
@@ -24888,7 +24869,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       key: timetable.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      onChange: _cache[3] || (_cache[3] = function () {
+      onChange: _cache[1] || (_cache[1] = function () {
         return $options.updateTable && $options.updateTable.apply($options, arguments);
       }),
       "onUpdate:modelValue": function onUpdateModelValue($event) {
@@ -24900,18 +24881,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       autocomplete: "off"
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_16), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.selected[timetable.id]]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_15), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.selected[timetable.id]]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": timetable.id,
       "class": "btn btn-outline-primary"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(timetable.title), 9
     /* TEXT, PROPS */
-    , _hoisted_17)], 64
+    , _hoisted_16)], 64
     /* STABLE_FRAGMENT */
     );
   }), 128
   /* KEYED_FRAGMENT */
   )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[4] || (_cache[4] = function () {
+    onClick: _cache[2] || (_cache[2] = function () {
       return $options.showForm && $options.showForm.apply($options, arguments);
     }),
     "class": "btn btn-primary",
@@ -24924,14 +24905,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     timetable: $data.currentTimetable
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_18];
+      return [_hoisted_17];
     }),
     _: 1
     /* STABLE */
 
   }, 8
   /* PROPS */
-  , ["timetable"]), _hoisted_19], 64
+  , ["timetable"]), _hoisted_18], 64
   /* STABLE_FRAGMENT */
   ))])])])])], 64
   /* STABLE_FRAGMENT */

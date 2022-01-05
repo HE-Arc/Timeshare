@@ -24,10 +24,6 @@
 
                 <div class="form-group">
                     <label>Manage : </label>
-                    <select class="form-control" @change="updateManagementsList" v-model="currentManageOn">
-                        <option value="-1">Select</option>
-                        <option v-for="timetable in myTimetables" :key="timetable.id" :value="timetable.id">{{timetable.title}}</option>
-                    </select>
                 </div>
 
                 <template v-if="currentManageOn != -1">
@@ -46,7 +42,7 @@
                     <template v-for="timetable in myTimetables" :key="timetable.id" >
                     <input @change="updateTable" v-model="selected[timetable.id]" type="checkbox" class="btn-check" :id="timetable.id" autocomplete="off"/>
                     <label :for="timetable.id" class="btn btn-outline-primary" >{{timetable.title}}
-                        <button class="btn btn-primary" type="button"><i class="bi bi-pencil"></i></button>
+                        <button @click="updateManagementsList(timetable.id)" class="btn btn-primary" type="button"><i class="bi bi-pencil"></i></button>
                     </label>
                     </template>
 
@@ -125,7 +121,8 @@ export default {
             this.formVisible = false;
         },
 
-        updateManagementsList(){
+        updateManagementsList(id){
+            this.currentManageOn = id;
             axios.get(route('managements.timetablesManagers', {timetableId:this.currentManageOn})).then((response) => {
 
             this.currentManagers = response.data;
