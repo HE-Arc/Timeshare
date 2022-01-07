@@ -33,9 +33,11 @@ export default defineComponent({
     methods:{
         onSubmit(){
             console.log(this.currentEmail, this.timetableId)
-            Inertia.post(route("managements.store", {mail:this.currentEmail, timetable:this.timetableId}))
+            axios.post(route("managements.store", {mail:this.currentEmail, timetable:this.timetableId}))
+                        .then(setTimeout(() => this.$parent.updateManagementsList(this.timetableId), 750))
+                        .catch(err => console.log(err.response.data));
 
-            setTimeout(() => this.$parent.updateManagementsList(), 500);
+
         }
     }
 })

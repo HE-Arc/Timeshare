@@ -10,6 +10,7 @@ use DB;
 
 class TimetableController extends Controller
 {
+    private $currentSharedTimetable = null;
     /**
      * Display a listing of the resource.
      *
@@ -30,9 +31,8 @@ class TimetableController extends Controller
                                   ->get();
 
         $myTimetables = Timetable::where('author', '=', Auth::id())->get();
-
-        Timetable::where('author', '=', Auth::id())->get();
-        return inertia('Timetables/Index', compact('myTimetables', 'manageTimetables'));
+        $sharedTimetable = $this->currentSharedTimetable;
+        return inertia('Timetables/Index', compact('myTimetables', 'manageTimetables', 'sharedTimetable'));
     }
 
     /**
@@ -76,7 +76,8 @@ class TimetableController extends Controller
      */
     public function show(Timetable $timetable)
     {
-        return $timetable->id;
+        $this->currentSharedTimetable = $timetable;
+        return $this->index();
     }
 
     /**

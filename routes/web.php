@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ManagementController;
 use App\Http\Controllers\TimetableController;
 use Illuminate\Foundation\Application;
@@ -33,5 +34,7 @@ Route::get('/dashboard', function () {
 Route::resource('/timetables', TimetableController::class);
 Route::get('managements/timetablesManagers', [ManagementController::class, 'timetablesManagers'])->name("managements.timetablesManagers");
 Route::resource('/managements', ManagementController::class);
+Route::get('events/timetablesEvents', [EventController::class, 'timetablesEvents'])->name("events.timetablesEvents");
+Route::resource('/events', EventController::class);
 
 require __DIR__.'/auth.php';

@@ -12,15 +12,16 @@ import { Inertia } from '@inertiajs/inertia'
 
 export default defineComponent({
     props: [
-        'managements'
+        'managements',
+        'timetableId'
     ],
     data() {
 
     },
     methods:{
         destroy(id){
-            Inertia.delete(route("managements.destroy", id));
-            setTimeout(() => this.$parent.updateManagementsList(), 500);
+            axios.delete(route("managements.destroy", id));
+            setTimeout(() => this.$parent.updateManagementsList(this.timetableId), 500);
         }
     }
 })

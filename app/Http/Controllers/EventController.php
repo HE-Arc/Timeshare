@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Management;
+use App\Models\Timetable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class EventController extends Controller
 {
@@ -14,7 +18,15 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        return redirect()->route('timetables.index');
+    }
+
+    /**
+     * get all the events of a timetable
+     */
+    public function timetablesEvents(Request $request){
+        return Event::where('timetable', '=', $request->timetable)
+                      ->get();
     }
 
     /**
@@ -35,7 +47,37 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'begin' => 'required|date',
+            'end' => 'required|date|after:begin',
+            'timetable' => 'required|integer'
+        ]);
+
+        $timetable = Timetable::where('id', '=', $request->timetable)->first();
+
+        // check that the current timetable exists
+        if($timetable == null)
+            return redirect()->route('events.index');
+
+        $newEvent = new Event();
+        $newEvent->timetable = $timetable->id;
+        $newEvent->author = Auth::id();
+        $newEvent->description = $request->title;
+        $newEvent->begin = $request->begin;
+        $newEvent->end = $request->end;
+        $newEvent->isPublic = true;             // TODO
+
+        if($timetable->author == Auth::id())
+            $newEvent->validated = true;
+        else if(Management::where([['manager', '=', Auth::id()],
+                                   ['timetable', '=', $timetable->id]])->exists())
+            $newEvent->validated = true;
+        else
+            $newEvent->validated = false;
+
+        $newEvent->isExclusive = false;     // TODO
+        $newEvent->save();
     }
 
     /**
@@ -78,8 +120,25 @@ class EventController extends Controller
      * @param  \App\Models\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event)
+    public function destroy($id)
     {
-        //
+        $event = Event::find($id);
+
+        $timetable = Timetable::where('id', '=', $event->timetable)->first();
+        if($timetable == null){
+            $event->delete();
+            return redirect()->route('events.index');
+        }
+
+        // if not author then check if manager
+        if($timetable->author != Auth::id()){
+            $isManager = Management::where([['manager', '=', Auth::id()],
+                                            ['timetable', '=', $timetable->id]]
+                                            )->exists();
+            if(!$isManager)
+                return redirect()->route('events.index');
+        }
+
+        $event->delete();
     }
 }

@@ -3,11 +3,7 @@
 <Head title="Dashboard" />
 
 <breeze-authenticated-layout>
-    <template #header>
-        <h2 class="h4 font-weight-bold">
-        Livrs
-        </h2>
-    </template>
+
 </breeze-authenticated-layout>
 
 <!--
@@ -19,23 +15,21 @@
 <div class="container h-100">
 
     <div class="row">
-        <div class="col-sm-4">
-            <div class="container p-3 my-3 bg-dark text-white">
+        <div v-if="editMode != 0"
+             class="col-sm-4 container p-3 my-3 bg-dark text-white">
 
-                <div class="form-group">
-                    <label>Manage : </label>
-                </div>
+            <template v-if="editMode == 1">
+                <show-managements :managements="currentManagers" :timetableId="currentEditOn"></show-managements>
+                <create-management :timetableId="currentEditOn"></create-management>
+            </template>
 
-                <template v-if="currentManageOn != -1">
-                    <show-managements :managements="currentManagers"></show-managements>
-                    <create-management :timetableId="currentManageOn"></create-management>
+            <template v-else-if="editMode == 2">
+                <create-event :clickedDateTime="clickedDateTime" :timetableId="currentEditOn"/>
+            </template>
 
-                </template>
-
-            </div>
         </div>
 
-        <div class="col-sm-8">
+        <div class="col">
 
             <div class="container p-3 my-3 bg-dark text-white">
                 <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
@@ -43,6 +37,7 @@
                     <input @change="updateTable" v-model="selected[timetable.id]" type="checkbox" class="btn-check" :id="timetable.id" autocomplete="off"/>
                     <label :for="timetable.id" class="btn btn-outline-primary" >{{timetable.title}}
                         <button @click="updateManagementsList(timetable.id)" class="btn btn-primary" type="button"><i class="bi bi-pencil"></i></button>
+                        <button v-if="timetable.isPublic" @click="copyShareToClipBoard(timetable.id)" class="btn btn-primary" type="button"><i class="bi bi-pencil"></i></button>
                     </label>
                     </template>
 
@@ -51,21 +46,32 @@
                     <label :for="timetable.id" class="btn btn-outline-primary" >{{timetable.title}}</label>
                     </template>
 
+                    <template v-if="sharedTimetable != null">
+                    <input @change="updateTable" v-model="selected[sharedTimetable.id]" type="checkbox" class="btn-check" :id="sharedTimetable.id" autocomplete="off"/>
+                    <label :for="sharedTimetable.id" class="btn btn-outline-primary" >{{sharedTimetable.title}}</label>
+                    </template>
+
                     <button @click="showForm" class="btn btn-primary" type="button">+</button>
                 </div>
 
-                <create-timetable v-if="formVisible"></create-timetable>
+                <create-timetable v-if="editMode == 3"></create-timetable>
                 <template v-else>
-                    <show :timetable="currentTimetable">test</show>
-                    oue
+
+                    <vue-cal
+                    style="height: 250px"
+                    :events="events"
+                    :editable-events="{ title: false, drag: false, resize: false, delete: true, create: false }"
+                    :cell-click-hold="false"
+                    :drag-to-create-event="false"
+                    :split-days="split"
+                    @cell-dblclick="showEventCreation"
+                    @event-delete="deleteEvent"
+                    />
+
                 </template>
             </div>
-
         </div>
     </div>
-
-
-
 </div>
 
 
@@ -80,7 +86,10 @@ import { Inertia } from '@inertiajs/inertia'
 import Button from '@/Components/Button.vue'
 import CreateManagement from '@/Pages/Managements/Create.vue'
 import ShowManagements from '@/Pages/Managements/Show.vue'
+import CreateEvent from '@/Pages/Events/Create.vue'
 import Label from '@/Components/Label.vue'
+import VueCal from 'vue-cal'
+import 'vue-cal/dist/vuecal.css'
 
 export default {
 
@@ -93,20 +102,27 @@ export default {
         Button,
         CreateManagement,
         ShowManagements,
-        Label
+        Label,
+        VueCal,
+        CreateEvent
     },
     data() {
         return {
-            formVisible: false,
+            editMode: 0,
             currentTimetable: null,
             selected: {},
-            currentManageOn: -1,
-            currentManagers: null
+            currentEditOn: -1,
+            currentManagers: null,
+
+            events: [],
+            clickedDateTime: Date.now(),
+            split: [],
         }
     },
     props: [
         "myTimetables",
-        "manageTimetables"
+        "manageTimetables",
+        "sharedTimetable"
     ],
     mounted(){
         this.myTimetables.forEach(timetable => {
@@ -117,23 +133,93 @@ export default {
         });
     },
     methods:{
+        getTheOnlySelected(){
+            let keys = Object.keys(this.selected);
+            let s = this.selected;
+            let selectedTrue = keys.filter(function(k){
+                return s[k];
+            });
+
+            if(selectedTrue.length != 1)
+                return false
+            return selectedTrue[0];
+        },
+
         updateTable(){
-            this.formVisible = false;
+            this.editMode = 0;
+            this.events = [];
+
+            this.split = [];
+            (Object.keys(this.selected)).filter(k=>this.selected[k])
+                                      .forEach(k=>{
+                this.split.push({
+                    id: k,
+                    label: "ok"
+                });
+
+                this.loadTimetableEvents(k);
+            });
+
+            console.log(this.events);
+        },
+
+        loadTimetableEvents(timetableId){
+            axios.get(route('events.timetablesEvents', {timetable:timetableId})).then((response) => {
+
+                let eventObjects = response.data;
+                eventObjects.forEach(e => {
+                    let vcEvent = this.eventObjectToVueCalEvent(e);
+                    vcEvent["split"] = timetableId;
+                    //vcEvent["deletable"] =
+                    this.events.push(vcEvent);
+                });
+            });
+        },
+
+        eventObjectToVueCalEvent(e){
+            let evc = {
+                start: e.begin,
+                end: e.end,
+                title: e.description,
+                id: e.id
+                };
+
+            if(e.validated == true)
+                evc["class"] = "valid";
+            else
+                evc["class"] = "invalid";
+
+            return evc;
         },
 
         updateManagementsList(id){
-            this.currentManageOn = id;
-            axios.get(route('managements.timetablesManagers', {timetableId:this.currentManageOn})).then((response) => {
+            this.editMode = 1;
+            this.currentEditOn = id;
 
-            this.currentManagers = response.data;
-            console.log(response.data);
+            axios.get(route('managements.timetablesManagers', {timetable:this.currentEditOn})).then((response) => {
+                this.currentManagers = response.data;
             });
         },
 
         showForm(){
-            this.formVisible=true;
+            this.editMode = 3;
             Object.keys(this.selected).forEach(v => this.selected[v] = false)
         },
+
+        showEventCreation(d){
+            let dateTime = d["date"];
+            this.currentEditOn = d["split"];
+            this.editMode = 2;
+            this.clickedDateTime = dateTime;
+        },
+
+        deleteEvent(e){
+            axios.delete(route("events.destroy", e.id));
+        },
+
+        copyShareToClipBoard(id){
+            navigator.clipboard.writeText("http://localhost:8000/timetables/"+id);
+        }
     }
 }
 </script>

@@ -25,7 +25,7 @@ class ManagementController extends Controller
      */
     public function timetablesManagers(Request $request)
     {
-        return Management::where('timetable', '=', $request->timetableId)
+        return Management::where('timetable', '=', $request->timetable)
                            ->join('users', 'users.id', '=', 'management.manager')
                            ->select('management.id', 'email')
                            ->get();
@@ -49,6 +49,7 @@ class ManagementController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'mail' => 'required',
             'timetable' => 'required|integer'
@@ -78,8 +79,6 @@ class ManagementController extends Controller
         $management->timetable = $request->timetable;
         $management->manager = $newManager->id;
         $management->save();
-
-        return redirect()->route('managements.index');
     }
 
     /**
@@ -125,9 +124,21 @@ class ManagementController extends Controller
     public function destroy($id)
     {
         $man = Management::find($id);
+
+        $timetable = Timetable::where('id', '=', $man->timetable)->first();
+        if($timetable == null){
+            $man->delete();
+            return redirect()->route('managements.index');
+        }
+
+        // to delete a management, we have to be the author
+        if($timetable->author != Auth::id())
+            return redirect()->route('managements.index');
+
         $man->delete();
 
-        return redirect()->route('managements.index')
-                        ->with('success','Management deleted successfully');
+
+        //return redirect()->route('managements.index')
+        //                 ->with('success','Management deleted successfully');
     }
 }

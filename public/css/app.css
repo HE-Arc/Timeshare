@@ -11286,6 +11286,16 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.vuecal__event.valid {
+  background-color: #6574cd;
+  color: white;
+}
+
+.vuecal__event.invalid {
+  background-color: #616161;
+  color: white;
+}
+
 html, body {
   height: 100vh;
 }
