@@ -1,5 +1,19 @@
 // Custom style...
 
+.vuecal__event.valid{
+    background-color: #6574cd;
+    color: white;
+}
+
+.vuecal__event.invalid{
+    background-color: #616161;
+    color: white;
+}
+
+html,body {
+    height: 100vh;
+}
+
 .antialiased {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -107,4 +121,49 @@
 
 .small {
   font-size: .875rem !important;
+}
+
+/*
+.btn-outline-primary {
+  color: #616161; // SEE IT WORKS
+}
+*/
+
+// Redefinition example
+.btn-outline-primary:hover {
+  color:#f9fafb;
+}
+
+.app-logo-font {
+  font-family: 'Roboto Slab', serif;
+}
+
+.edit-div {
+  max-width: 600px;
+}
+
+.btn-check {
+  color: #f9fafb;
+  background-color: #616161;
+}
+
+.btn-check:checked {
+  color: #f9fafb;
+}
+
+.btn-primary {
+  color: #f9fafb;
+}
+
+.btn-primary:hover {
+  color: #f9fafb;
+}
+
+.wrapper-btn {
+  width: fit-content;
+  height: fit-content;
+}
+
+.btn-group {
+  color: #f9fafb;
 }

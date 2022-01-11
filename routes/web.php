@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\ManagementController;
+use App\Http\Controllers\TimetableController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,8 +27,15 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function () {          // /dashboard
+    return Inertia::render('Dashboard');        // Dashboard
+})->middleware(['auth', 'verified'])->name('dashboard');    // dashboard
+
+
+Route::resource('/timetables', TimetableController::class);
+Route::get('managements/timetablesManagers', [ManagementController::class, 'timetablesManagers'])->name("managements.timetablesManagers");
+Route::resource('/managements', ManagementController::class);
+Route::get('events/timetablesEvents', [EventController::class, 'timetablesEvents'])->name("events.timetablesEvents");
+Route::resource('/events', EventController::class);
 
 require __DIR__.'/auth.php';
