@@ -15,7 +15,7 @@
 <div class="container h-100">
 
     <div class="row">
-        <div v-if="editMode != 0"
+        <div v-if="editMode != 0 && editMode != 3"
              class="col-sm-4 container p-3 my-3 bg-dark text-white">
 
             <template v-if="editMode == 1">
@@ -31,13 +31,17 @@
 
         <div class="col">
 
-            <div class="container p-3 my-3 bg-dark text-white">
-                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+            <div>     <!--  container p-3 my-3 bg-dark text-white -->
+                <div v-if="editMode != 3" class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">
                     <template v-for="timetable in myTimetables" :key="timetable.id" >
                     <input @change="updateTable" v-model="selected[timetable.id]" type="checkbox" class="btn-check" :id="timetable.id" autocomplete="off"/>
                     <label :for="timetable.id" class="btn btn-outline-primary" >{{timetable.title}}
-                        <button @click="updateManagementsList(timetable.id)" class="btn btn-primary" type="button"><i class="bi bi-pencil"></i></button>
-                        <button v-if="timetable.isPublic" @click="copyShareToClipBoard(timetable.id)" class="btn btn-primary" type="button"><i class="bi bi-pencil"></i></button>
+                        <button @click="updateManagementsList(timetable.id)" class="btn btn-primary mx-2" type="button">
+                            <edit-icon></edit-icon>
+                        </button>
+                        <button v-if="timetable.isPublic" @click="copyShareToClipBoard(timetable.id)" class="btn btn-primary" type="button">
+                            <share-icon></share-icon>
+                        </button>
                     </label>
                     </template>
 
@@ -91,6 +95,9 @@ import Label from '@/Components/Label.vue'
 import VueCal from 'vue-cal'
 import 'vue-cal/dist/vuecal.css'
 
+import EditIcon from '@/Components/EditIcon.vue'
+import ShareIcon from '@/Components/ShareIcon.vue'
+
 export default {
 
     components: {
@@ -104,7 +111,9 @@ export default {
         ShowManagements,
         Label,
         VueCal,
-        CreateEvent
+        CreateEvent,
+        EditIcon,
+        ShareIcon
     },
     data() {
         return {
