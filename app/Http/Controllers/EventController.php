@@ -26,6 +26,9 @@ class EventController extends Controller
      */
     public function timetablesEvents(Request $request){
         return Event::where('timetable', '=', $request->timetable)
+                      ->join('users', 'users.id', '=', 'events.author')
+                      ->select('name', 'email', 'events.id', 'events.author', 'timetable',
+                               'description', 'begin', 'end', 'isPublic', 'validated')
                       ->get();
     }
 
@@ -88,7 +91,11 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        $timetable = Timetable::where('id', '=', $event->timetable)->first();
+
+        // check that the current timetable exists
+        if($timetable == null)
+            return redirect()->route('events.index');
     }
 
     /**
@@ -111,7 +118,12 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        //
+        if(!$this->checkManageRights($event))
+            return redirect()->route('events.index');
+
+        $event->update($request->all());
+
+        echo 'ouiii';
     }
 
     /**
@@ -124,21 +136,24 @@ class EventController extends Controller
     {
         $event = Event::find($id);
 
-        $timetable = Timetable::where('id', '=', $event->timetable)->first();
-        if($timetable == null){
-            $event->delete();
+        if(!$this->checkManageRights($event))
             return redirect()->route('events.index');
-        }
 
-        // if not author then check if manager
+        $event->delete();
+    }
+
+    private function checkManageRights($event){
+        $timetable = Timetable::where('id', '=', $event->timetable)->first();
+        if($timetable == null)
+            return false;
         if($timetable->author != Auth::id()){
             $isManager = Management::where([['manager', '=', Auth::id()],
                                             ['timetable', '=', $timetable->id]]
                                             )->exists();
             if(!$isManager)
-                return redirect()->route('events.index');
+                return false;
         }
 
-        $event->delete();
+        return true;
     }
 }

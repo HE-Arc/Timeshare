@@ -41,7 +41,7 @@ export default defineComponent({
     methods:{
         onSubmit(){
             console.log(this.timetableId);
-            Inertia.post(route("events.store", {title:this.title, end:this.end,
+            axios.post(route("events.store", {title:this.title, end:this.end,
                                                 begin:this.begin,
                                                 timetable:this.timetableId}));
 
