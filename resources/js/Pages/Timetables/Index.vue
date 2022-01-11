@@ -58,7 +58,7 @@
                 <template v-else>
 
                     <vue-cal
-                    style="height: 250px"
+                    style="height: 600px"
                     :events="events"
                     :editable-events="{ title: false, drag: false, resize: false, delete: true, create: false }"
                     :cell-click-hold="false"

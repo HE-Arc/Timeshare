@@ -3,11 +3,6 @@
     <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom sticky-top">
       <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand" href="/">
-          <Link :href="route('dashboard')">
-            <breeze-application-logo width="36" />
-          </Link>
-        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,8 +10,8 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Left Side Of Navbar -->
           <ul class="navbar-nav me-auto">
-            <breeze-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-              Dashboard
+            <breeze-nav-link :href="route('dashboard')" :active="route().current('dashboard')">   <!-- TODO RESOLVE AND CHANGE WITH : timetables -->
+              <h1 class="display-7 app-logo-font">Timeshare</h1>
             </breeze-nav-link>
           </ul>
 
@@ -44,13 +39,13 @@
       </div>
     </nav>
 
-    <!-- Page Heading -->
+    <!-- Page Heading
     <header class="d-flex py-3 bg-white shadow-sm border-bottom">
       <div class="container">
         <slot name="header" />
       </div>
-    </header>
-
+    </header>-->
+    
     <!-- Page Content -->
     <main class="container my-5">
       <slot />

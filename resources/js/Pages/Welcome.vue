@@ -5,7 +5,9 @@
   <div class="container-fluid my-5 pt-5 px-5">
     <section class="jumbotron text-center">
       <div class="container-fluid my-5 pt-5 px-5">
-        <h1 class="jumbotron-heading">Timeshare</h1>
+        <Link href="/" class="text-decoration-none">
+          <h1 class="display-3 app-logo-font">Timeshare</h1>
+        </Link>
         <p class="lead text-muted">
           Share your schedule with anyone from friends to coworkers.
         </p>

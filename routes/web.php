@@ -27,9 +27,10 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function () {          // /dashboard
+    return Inertia::render('Dashboard');        // Dashboard
+})->middleware(['auth', 'verified'])->name('dashboard');    // dashboard
+
 
 Route::resource('/timetables', TimetableController::class);
 Route::get('managements/timetablesManagers', [ManagementController::class, 'timetablesManagers'])->name("managements.timetablesManagers");
