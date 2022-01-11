@@ -15,8 +15,10 @@
 <div class="container h-100">
 
     <div class="row">
-        <div v-if="editMode != 0 && editMode != 3"
+        <div v-if="editMode != 0 && editMode != 4"
              class="col-sm-4 container p-3 my-3 bg-dark text-white">
+
+            <button @click="editMode = 0" style="float:right">x</button>
 
             <template v-if="editMode == 1">
                 <show-managements :managements="currentManagers" :timetableId="currentEditOn"></show-managements>
@@ -25,6 +27,10 @@
 
             <template v-else-if="editMode == 2">
                 <create-event :clickedDateTime="clickedDateTime" :timetableId="currentEditOn"/>
+            </template>
+
+            <template v-else-if="editMode == 3">
+                <show-event :hasRights="hasRightsOnEvent" :event="selectedEvent"></show-event>
             </template>
 
         </div>
@@ -58,7 +64,7 @@
                     <button @click="showForm" class="btn btn-primary" type="button">+</button>
                 </div>
 
-                <create-timetable v-if="editMode == 3"></create-timetable>
+                <create-timetable v-if="editMode == 4"></create-timetable>
                 <template v-else>
 
                     <vue-cal
@@ -70,15 +76,13 @@
                     :split-days="split"
                     @cell-dblclick="showEventCreation"
                     @event-delete="deleteEvent"
+                    :on-event-click="onEventClick"
                     />
-
                 </template>
             </div>
         </div>
     </div>
 </div>
-
-
 </template>
 
 <script>
@@ -91,6 +95,7 @@ import Button from '@/Components/Button.vue'
 import CreateManagement from '@/Pages/Managements/Create.vue'
 import ShowManagements from '@/Pages/Managements/Show.vue'
 import CreateEvent from '@/Pages/Events/Create.vue'
+import ShowEvent from '@/Pages/Events/Show.vue'
 import Label from '@/Components/Label.vue'
 import VueCal from 'vue-cal'
 import 'vue-cal/dist/vuecal.css'
@@ -113,7 +118,8 @@ export default {
         VueCal,
         CreateEvent,
         EditIcon,
-        ShareIcon
+        ShareIcon,
+        ShowEvent
     },
     data() {
         return {
@@ -126,6 +132,9 @@ export default {
             events: [],
             clickedDateTime: Date.now(),
             split: [],
+            selectedEvent: {},
+            showCreateTimetable: false,
+            hasRightsOnEvent: false
         }
     },
     props: [
@@ -162,8 +171,7 @@ export default {
             (Object.keys(this.selected)).filter(k=>this.selected[k])
                                       .forEach(k=>{
                 this.split.push({
-                    id: k,
-                    label: "ok"
+                    id: k
                 });
 
                 this.loadTimetableEvents(k);
@@ -186,19 +194,16 @@ export default {
         },
 
         eventObjectToVueCalEvent(e){
-            let evc = {
-                start: e.begin,
-                end: e.end,
-                title: e.description,
-                id: e.id
-                };
+            e["start"] = e.begin;
+            e["title"] = e.description;
+            e["content"] = e.name;
 
             if(e.validated == true)
-                evc["class"] = "valid";
+                e["class"] = "valid";
             else
-                evc["class"] = "invalid";
+                e["class"] = "invalid";
 
-            return evc;
+            return e;
         },
 
         updateManagementsList(id){
@@ -211,7 +216,7 @@ export default {
         },
 
         showForm(){
-            this.editMode = 3;
+            this.editMode = 4;
             Object.keys(this.selected).forEach(v => this.selected[v] = false)
         },
 
@@ -226,8 +231,23 @@ export default {
             axios.delete(route("events.destroy", e.id));
         },
 
+        onEventClick(event, e){
+
+            if(this.sharedTimetable == null)
+                this.hasRightsOnEvent = true;
+            else
+                // if the only timetable where I do not have the rights (sharedTimetable) is the one where sits the event
+                this.hasRightsOnEvent = this.sharedTimetable.id != event.timetable;
+
+
+            this.selectedEvent = event;
+            this.editMode = 3;
+
+            e.stopPropagation();
+        },
+
         copyShareToClipBoard(id){
-            navigator.clipboard.writeText("http://localhost:8000/timetables/"+id);
+            navigator.clipboard.writeText(route('timetables.show', id));
         }
     }
 }
