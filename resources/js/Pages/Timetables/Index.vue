@@ -1,6 +1,6 @@
 <template>
 
-<Head title="Dashboard" />
+<Head title="Timetable" />
 
 <breeze-authenticated-layout>
 
@@ -9,7 +9,7 @@
 <!--
     A FAIRE :
         ajouter un petit engrenage sur les bouton "myTime..."
-            qui montrent la fenêtre de manage
+            qui montrent la fenêtre de management
     -->
 
 <div class="container h-100">

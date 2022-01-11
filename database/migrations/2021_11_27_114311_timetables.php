@@ -13,14 +13,9 @@ class Timetables extends Migration
      */
     public function up()
     {
-        Schema::create('timetables', function (Blueprint $table) {
-            $table->id();
+        Schema::table('timetables', function (Blueprint $table) {
 
-            $table->foreignId('author')->constrained("users");
-            $table->boolean("isPublic");
             $table->text("title");
-
-            $table->timestamps();
         });
     }
 

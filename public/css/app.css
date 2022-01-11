@@ -11401,3 +11401,12 @@ html, body {
 .small {
   font-size: 0.875rem !important;
 }
+
+/*
+.btn-outline-primary {
+  color: #616161; // SEE IT WORKS
+}
+*/
+.btn-outline-primary:hover {
+  color: #f9fafb;
+}

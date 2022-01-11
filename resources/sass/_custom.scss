@@ -122,3 +122,14 @@ html,body {
 .small {
   font-size: .875rem !important;
 }
+
+/*
+.btn-outline-primary {
+  color: #616161; // SEE IT WORKS
+}
+*/
+
+// Redefinition example
+.btn-outline-primary:hover {
+  color:#f9fafb;
+}
