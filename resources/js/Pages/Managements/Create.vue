@@ -1,10 +1,15 @@
 <template>
+    <div>
+        <h2>Share ownership</h2>
+    </div>
+
     <form v-on:submit.prevent="onSubmit" method="POST">
         <input type="hidden" name="_token" :value="csrf">
 
-        <div class="row mt-2">
+        <div class="row mt-3">
             <div class="col">
-                <input class="form-control" type="email" v-model="currentEmail" name="userEmail" id="inputUserEmail"/>
+                <input class="form-control" type="email" v-model="currentEmail" placeholder="E-mail" name="userEmail" id="inputUserEmail"/>
+                <small class="text-muted">E-mail adress of a future Timeholder</small>
             </div>
 
             <div class="col">

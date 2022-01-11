@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Left Side Of Navbar -->
           <ul class="navbar-nav me-auto">
-            <breeze-nav-link :href="route('dashboard')" :active="route().current('dashboard')">   <!-- TODO RESOLVE AND CHANGE WITH : timetables -->
+            <breeze-nav-link >   <!-- TODO RESOLVE AND CHANGE WITH : timetables -->
               <h1 class="display-7 app-logo-font">Timeshare</h1>
             </breeze-nav-link>
           </ul>

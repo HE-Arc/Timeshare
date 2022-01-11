@@ -16,22 +16,25 @@
 
     <div class="row">
         <div v-if="editMode != 0 && editMode != 4"
-             class="col-sm-4 container p-3 my-3 bg-dark text-white">
+                class="col card shadow-sm px-2 py-2">   <!--col-sm-4 container p-3 my-3 bg-dark text-white-->
+            <div class="card-body">
+                <button @click="editMode = 0" class="btn btn-outline-primary" style="float:right">
+                    <close-icon></close-icon>
+                </button>
 
-            <button @click="editMode = 0" style="float:right">x</button>
+                <template v-if="editMode == 1">
+                    <show-managements :managements="currentManagers" :timetableId="currentEditOn"></show-managements>
+                    <create-management :timetableId="currentEditOn"></create-management>
+                </template>
 
-            <template v-if="editMode == 1">
-                <show-managements :managements="currentManagers" :timetableId="currentEditOn"></show-managements>
-                <create-management :timetableId="currentEditOn"></create-management>
-            </template>
+                <template v-else-if="editMode == 2">
+                    <create-event :clickedDateTime="clickedDateTime" :timetableId="currentEditOn"/>
+                </template>
 
-            <template v-else-if="editMode == 2">
-                <create-event :clickedDateTime="clickedDateTime" :timetableId="currentEditOn"/>
-            </template>
-
-            <template v-else-if="editMode == 3">
-                <show-event :hasRights="hasRightsOnEvent" :event="selectedEvent"></show-event>
-            </template>
+                <template v-else-if="editMode == 3">
+                    <show-event :hasRights="hasRightsOnEvent" :event="selectedEvent"></show-event>
+                </template>
+            </div>
 
         </div>
 
@@ -106,6 +109,7 @@ import 'vue-cal/dist/vuecal.css'
 
 import EditIcon from '@/Components/EditIcon.vue'
 import ShareIcon from '@/Components/ShareIcon.vue'
+import CloseIcon from '@/Components/CloseIcon.vue'
 
 export default {
 
@@ -123,6 +127,7 @@ export default {
         CreateEvent,
         EditIcon,
         ShareIcon,
+        CloseIcon,
         ShowEvent
     },
     data() {

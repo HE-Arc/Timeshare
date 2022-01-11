@@ -1,16 +1,16 @@
 <template>
-    <p>Create Timetable</p>
+    <h2 class="mb-5">Create Timetable</h2>
     <form v-on:submit.prevent="onSubmit" method="POST">
         <input type="hidden" name="_token" :value="csrf">
         <input v-model="begin"
                 @change="checkDates()"
-                class="form-control" type="datetime-local">
+                class="form-control my-3" type="datetime-local">
 
         <input v-model="end"
                 @change="checkDates()"
-                class="form-control" type="datetime-local">
+                class="form-control my-3" type="datetime-local">
 
-        <input v-model="title" placeholder="Title" type="text" class="form-control">
+        <input v-model="title" placeholder="Title" type="text" class="form-control my-3">
 
         <button type="submit" class="btn btn-primary mt-3">Add</button>
     </form>

@@ -17,7 +17,6 @@
                     </div>
                     <p>
                         <button type="submit" class="btn btn-outline-primary my-3">Create</button>
-                        <button type="submit" class="btn btn-outline-primary my-3 mx-3">Cancel</button>
                     </p>
                 </form>
             </div>

@@ -11445,3 +11445,7 @@ html, body {
   height: -moz-fit-content;
   height: fit-content;
 }
+
+.btn-group {
+  color: #f9fafb;
+}

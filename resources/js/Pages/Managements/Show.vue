@@ -1,8 +1,15 @@
 <template>
-    <p v-for="management in managements" :key="management.id">
-        {{management.email}}
-        <button @click="destroy(management.id)" class="btn btn-danger"><i class="bi bi-trash"></i></button>
-    </p>
+    <div class="mb-3">
+        <h2>Timeholders list</h2>
+    </div>
+    <div class="mb-2">
+        <p v-for="management in managements" :key="management.id">
+            <button @click="destroy(management.id)" class="btn btn-outline-danger mx-3">
+                Remove
+            </button>
+            {{management.email}}
+        </p>
+    </div>
 </template>
 
 
