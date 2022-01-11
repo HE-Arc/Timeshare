@@ -53,7 +53,11 @@
 
                     <template v-for="timetable in manageTimetables" :key="timetable.id" >
                     <input @change="updateTable" v-model="selected[timetable.id]" type="checkbox" class="btn-check" :id="timetable.id" autocomplete="off"/>
-                    <label :for="timetable.id" class="btn btn-outline-primary" >{{timetable.title}}</label>
+                    <label :for="timetable.id" class="btn btn-outline-primary" >{{timetable.title}}
+                        <button v-if="timetable.isPublic" @click="copyShareToClipBoard(timetable.id)" class="btn btn-primary" type="button">
+                            <share-icon></share-icon>
+                        </button>
+                    </label>
                     </template>
 
                     <template v-if="sharedTimetable != null">

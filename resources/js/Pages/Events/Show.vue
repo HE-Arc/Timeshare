@@ -8,7 +8,7 @@
         <li>Event author : <strong>{{ event.name }}</strong> <a :href="'mailto:'+event.email">{{event.email}}</a></li>
     </ul>
 
-    <button class="btn btn-danger" v-if="event.validated" @click="deleteEvent">Delete</button>
+    <button class="btn btn-danger" v-if="event.validated && hasRights" @click="deleteEvent">Delete</button>
     <template v-else-if="hasRights">
         <button class="btn btn-danger" @click="deleteEvent">Refuse</button>
         <button class="btn btn-success" @click="validateEvent">Validate</button>

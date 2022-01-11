@@ -25017,7 +25017,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: 'mailto:' + _ctx.event.email
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.event.email), 9
   /* TEXT, PROPS */
-  , _hoisted_4)])]), _ctx.event.validated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  , _hoisted_4)])]), _ctx.event.validated && _ctx.hasRights ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     "class": "btn btn-danger",
     onClick: _cache[0] || (_cache[0] = function () {
@@ -25286,8 +25286,9 @@ var _hoisted_8 = ["onClick"];
 var _hoisted_9 = ["onClick"];
 var _hoisted_10 = ["onUpdate:modelValue", "id"];
 var _hoisted_11 = ["for"];
-var _hoisted_12 = ["id"];
-var _hoisted_13 = ["for"];
+var _hoisted_12 = ["onClick"];
+var _hoisted_13 = ["id"];
+var _hoisted_14 = ["for"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Head = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Head");
 
@@ -25407,8 +25408,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , _hoisted_10), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.selected[timetable.id]]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": timetable.id,
       "class": "btn btn-outline-primary"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(timetable.title), 9
-    /* TEXT, PROPS */
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(timetable.title) + " ", 1
+    /* TEXT */
+    ), timetable.isPublic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 0,
+      onClick: function onClick($event) {
+        return $options.copyShareToClipBoard(timetable.id);
+      },
+      "class": "btn btn-primary",
+      type: "button"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_share_icon)], 8
+    /* PROPS */
+    , _hoisted_12)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8
+    /* PROPS */
     , _hoisted_11)], 64
     /* STABLE_FRAGMENT */
     );
@@ -25429,12 +25441,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     autocomplete: "off"
   }, null, 40
   /* PROPS, HYDRATE_EVENTS */
-  , _hoisted_12), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.selected[$props.sharedTimetable.id]]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  , _hoisted_13), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.selected[$props.sharedTimetable.id]]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": $props.sharedTimetable.id,
     "class": "btn btn-outline-primary"
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.sharedTimetable.title), 9
   /* TEXT, PROPS */
-  , _hoisted_13)], 64
+  , _hoisted_14)], 64
   /* STABLE_FRAGMENT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[5] || (_cache[5] = function () {
